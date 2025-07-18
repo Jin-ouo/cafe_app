@@ -67,7 +67,7 @@ class _MenuScreenState extends State<MenuScreen> {
       width: 200,
       decoration: BoxDecoration(
         boxShadow: [BoxShadow(
-            color: Colors.red.withOpacity(0.3),
+            color: Colors.purple.withOpacity(0.3),
             blurRadius: 3,
           spreadRadius: 2,
           offset: Offset(0, 0),
@@ -116,7 +116,7 @@ class _MenuScreenState extends State<MenuScreen> {
             Container(
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(color: index == 0 ? Colors.red : Colors.white, width: 4),
+                  bottom: BorderSide(color: index == 0 ? Colors.purple : Colors.white, width: 4),
                 ),
               ),
               child: TextButton(
@@ -129,12 +129,12 @@ class _MenuScreenState extends State<MenuScreen> {
                       index = 0;
                     });
                   },
-                  child: Text('커피/음료', style: TextStyle(color: index == 0 ? Colors.red : Colors.black,),)
+                  child: Text('커피/음료', style: TextStyle(color: index == 0 ? Colors.purple : Colors.black,),)
               ),
             ),
             Container(
               decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: index == 1 ? Colors.red : Colors.white, width: 4))
+                border: Border(bottom: BorderSide(color: index == 1 ? Colors.purple : Colors.white, width: 4))
               ),
               child: TextButton(
                 style: TextButton.styleFrom(
@@ -145,7 +145,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       index = 1;
                     });
                   },
-                  child: Text('케이크', style: TextStyle(color: index == 1 ? Colors.red : Colors.black),)
+                  child: Text('케이크', style: TextStyle(color: index == 1 ? Colors.purple : Colors.black),)
               ),
             )
 

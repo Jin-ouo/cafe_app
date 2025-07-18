@@ -1,240 +1,166 @@
 import 'package:flutter/material.dart';
 import 'dumi_data.dart';
-import 'dart:math';
-
 class HomeScreen extends StatefulWidget {
-  final Function(int) onTabChange;
-
-  const HomeScreen({super.key, required this.onTabChange});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-
 class _HomeScreenState extends State<HomeScreen> {
-  int coffeeIndex = 0;
+  late PageController _pageController;
+  final List<String> images = ['assets/home_img4.png', 'assets/home_img3.png'];
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    coffeeIndex = Random().nextInt(20);
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(
-          '냥카페',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.red,
+        title: Text('냥카페', style: TextStyle(fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.notifications_none)),
+        ],
       ),
-
-
-      body: Column(
-        children: [
-          // 가게 위 천막
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 60,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/home_img0.png'),
-                fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 400,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    blurRadius: 10,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: images.length,
+                itemBuilder: (context, index) {
+                  return Image.asset(
+                    images[index],
+                    fit: BoxFit.fitHeight,
+                    width: double.infinity,
+                  );
+                },
               ),
             ),
-          ),
-          // 가게 앞면
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 200,
-            // 구분 선
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(bottom: BorderSide(color: Colors.grey, width: 1)),
+            Container(
+              padding: EdgeInsets.all(20),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '안녕하세요!\n냥카페입니다',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              ),
             ),
-            // 오늘의 추천 메뉴
-            child: Row(
-              children: [
-                // 칠판
-                Container(
-                  padding: EdgeInsets.all(20),
-                  child: Container(
-                    height: 100,
-                    width: 150,
-                    color: Color(0xFF003500),
-                    // 추천메뉴 글자
-                    child: Column(
-                      children: [
-                        SizedBox(height: 20),
-                        Text(
-                          '오늘의 추천 메뉴',
-                          style: TextStyle(
-                            color: Colors.yellow,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(dummyCoffee[coffeeIndex]['name'], style: TextStyle(color: Colors.white)),
-                      ],
-                    ),
-                  ),
-                ),
-                // 고양이 그림
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Column(
-                    children: [
-                      // 고양이
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border(
-                            left: BorderSide(
-                              color: Color(0xFF5C0000),
-                              width: 5,
-                            ),
-                            top: BorderSide(color: Color(0xFF5C0000), width: 5),
-                            right: BorderSide(
-                              color: Color(0xFF5C0000),
-                              width: 5,
-                            ),
-                          ),
-                          image: DecorationImage(
-                            image: AssetImage('assets/nyang.png'),
-                            fit: BoxFit.contain,
-                            alignment: Alignment.bottomCenter,
-                          ),
-                        ),
-                        height: 120,
-                        width: 170,
-                      ),
-                      Container(
-                        height: 20,
-                        width: 200,
-                        color: Color(0xFF5C0000),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          //   가게 안
-          Expanded(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
+
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               child: Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  //   왼쪽 테이블
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      color: Colors.white,
-                      child: Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(height: 10,),
-                            // 메뉴 보러가기
-                            TextButton(
-                                style: TextButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    foregroundColor: Colors.red,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(0),
-                                      side: BorderSide(color: Colors.red, width: 2),
-                                    )
-                                ),
-                                onPressed: () => widget.onTabChange(1),
-                                child: Text('메뉴 보러가기 >>',style: TextStyle(fontWeight: FontWeight.bold),)
-                            ),
-                            // 테이블 3개
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/home_img1.png'),
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/home_img1.png'),
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/home_img1.png'),
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                  TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 15,
                       ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      backgroundColor: Colors.purple.withOpacity(0.3),
                     ),
-                  ),
-                  //   오른쪽 길
-                  Expanded(
-                    flex: 1,
-                    child: Stack(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Positioned(
-                          top: 0,
-                          left: 20,
-                          right: 50,
-                          child: Container(
-                            height:MediaQuery.of(context).size.height,
-                            color: Colors.red, // 여기로 옮김
-                          ),
-                        ),
-
-                        Positioned(
-                          top: 0,
-                          left: 23,
-                          right: 53,
-                          child: Container(
-                            height:MediaQuery.of(context).size.height,
-                            color: Colors.yellow, // 여기로 옮김
-                          ),
-                        ),
-
-                        Positioned(
-                          top: 0,
-                          left: 26,
-                          right: 56,
-                          child: Container(
-                            height:MediaQuery.of(context).size.height,
-                            color: Colors.red, // 여기로 옮김
-                          ),
-                        ),
+                        Icon(Icons.local_activity, size: 20),
+                        SizedBox(width: 5),
+                        Text('스탬프', style: TextStyle(fontSize: 15)),
                       ],
                     ),
                   ),
-
+                  SizedBox(width: 20),
+                  TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 15,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      backgroundColor: Colors.purple.withOpacity(0.3),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.local_offer, size: 20),
+                        SizedBox(width: 5),
+                        Text('쿠폰', style: TextStyle(fontSize: 15)),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ),
-        ],
+            Container(
+              padding: EdgeInsets.all(20),
+              child: Text('냥카페 추천 메뉴', style: TextStyle(fontSize: 18)),
+            ),
+
+            Container(
+              height: 160,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 5,
+                  itemBuilder: (context, index){
+                    final coffee = dummyCoffee[index];
+
+                    return Container(
+                      width: 120,
+                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      child: TextButton(onPressed: (){},
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ClipOval(
+                                child: Image.asset(coffee['image'],
+                                width: 90,
+                                  height: 90,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(height: 8,),
+                              Text(coffee['name'], textAlign: TextAlign.center,),
+                              Text('${coffee['price']}원'),
+                            ],
+                          ),
+                      ),
+                    );
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }

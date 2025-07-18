@@ -20,7 +20,7 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _screen = [HomeScreen(onTabChange: changeTab), MenuScreen()];
+    List<Widget> _screen = [HomeScreen(), MenuScreen()];
 
     return Scaffold(
       body: _screen[_index],
@@ -38,7 +38,7 @@ class _BottomNavState extends State<BottomNav> {
         child: BottomNavigationBar(
           backgroundColor: Colors.white,
           currentIndex: _index,
-          selectedItemColor: Colors.red,
+          selectedItemColor: Colors.purple,
           unselectedItemColor: Colors.black54,
           onTap: (index) => setState(() {
             _index = index;
